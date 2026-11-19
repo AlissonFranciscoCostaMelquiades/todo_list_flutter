@@ -13,7 +13,7 @@ class TodoApp extends StatefulWidget {
   const TodoApp({super.key});
 
   @override
-  State<TodoApp> createState() => _TodoAppState():
+  State<TodoApp> createState() => _TodoAppState();
 }
 
 class _TodoAppState extends State<TodoApp> {
@@ -61,6 +61,41 @@ class _TodoAppState extends State<TodoApp> {
 
   @override
   Widget build(BuildContext context) {
-    
+    const seedColor = Color(0xFF1565C0);
+
+    return MaterialApp(
+      title: 'Minhas tarefas',
+      debugShowCheckedModeBanner: false,
+      theme: ThemeData(
+        useMaterial3: true,
+        colorScheme: ColorScheme.fromSeed(
+          seedColor: seedColor
+        ),
+        appBarTheme: const AppBarTheme(
+          centerTitle: false,
+        ),
+      ),
+      darkTheme: ThemeData(
+        useMaterial3: true,
+        colorScheme: ColorScheme.fromSeed(
+          seedColor: seedColor,
+          brightness: Brightness.dark, 
+        ),
+        appBarTheme: const AppBarTheme(
+          centerTitle: false,
+        ),
+      ),
+      themeMode: _darkMode ? ThemeMode.dark : ThemeMode.light,
+      home: _isLoading
+          ? const Scaffold(
+              body: Center(child: CircularProgressIndicator()),
+            )
+          : _isLoggedIn
+            ? HomePage(
+                onLogout: _handleLogout, 
+                onThemeChanged: _handleThemeChanged
+              )
+            : LoginPage(onLogin: _handleLogin)
+    );
   }
 }
